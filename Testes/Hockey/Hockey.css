@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    background-color: hsl(200, 50%, 70%);
+}
+
+/*p{ ERRO POR RESOLVER
+    text-align: center;
+    font-size: 50px;
+    position: relative;
+    left: 375px;
+}*/
+
+canvas {
+    background-color: hsl(0,100%,100%);
+    margin-top: 32px;
+    border-style: solid;
+    /*position: relative; ERRO POR RESOLVER
+    top: 25px;*/
+}

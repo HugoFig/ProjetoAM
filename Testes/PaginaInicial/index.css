@@ -1,0 +1,43 @@
+body, html{
+    height: 100%;
+}
+
+.games {
+    width: 600px;
+    height: 500px;
+    border: 10px solid black;
+    margin: 20px auto;
+    position: relative;
+    top: 100px;
+}
+
+#game1, #game2 {
+    width: 200px;
+    height: 100px;
+}
+
+a:link, a:visited, a:hover, a:active{
+    text-decoration: none;
+    color: black;
+}
+
+#game1 {
+    background-color: purple;
+    position: relative;
+    left: 30px;
+    top: 100px;
+}
+
+#game2 {
+    background: #eeeeee;
+    position: relative;
+    top: 200px;
+    left: 30px;
+}
+
+body {
+    background-color: hsl(200, 50%, 70%);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
