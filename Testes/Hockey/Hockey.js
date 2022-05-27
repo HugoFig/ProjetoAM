@@ -9,12 +9,33 @@ const campo = () => {
     ctx.arc(width/2, height/2, width/10, 0, 2*Math.PI)
     ctx.moveTo(0, height/2)
     ctx.lineTo(width, height/2)
+    //Scoreboard
+    ctx.moveTo(width/3, 0)
+    ctx.rect(width/3, 0, width/3, height/20)
+    ctx.moveTo(width/3, 0)
+    ctx.rect(width/3, height-height/20, width/3, height)
+    ctx.font = '48px serif'
+    ctx.fillText(bot.score, width/15, height/15)
+    ctx.fillText(player.score, width/15, height - height/16)
     ctx.stroke()
 }
 
 window.addEventListener("mousemove", (e) => {
-    player.x = e.x - window.innerWidth/2 + width/2
-    player.y = e.y - height*0.05;
+    var relativeX = e.clientX - canvas.offsetLeft;
+    var relativeY = e.clientY -canvas.offsetTop;
+    //player.x = e.x - window.innerWidth/2 + width/2
+    //player.y = e.y - height*0.05;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        player.x = relativeX;
+    }
+    //360
+   if(relativeY > 0 && relativeY < 700){
+        player.y = relativeY;
+    } 
+
+    if(relativeY > 450 && relativeY <= 700){
+        player.y != undefined 
+    }
 })
 
 class Player {
@@ -25,6 +46,7 @@ class Player {
         this.prevY = undefined
         this.dx = undefined
         this.dy = undefined
+        this.score = 0
     }
     draw () {
         ctx.beginPath()
@@ -51,7 +73,7 @@ class Bola {
 
     draw() {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, width*0.04, 0, 2*Math.PI)
+        ctx.arc(this.x, this.y, width*.04, 0, 2*Math.PI)
         ctx.fillStyle = "black"
         ctx.fill()
         ctx.stroke()
@@ -61,59 +83,132 @@ class Bola {
         this.x += this.dx
         this.y += this.dy
 
-        const a = Math.abs(this.x - player.x)
-        const b = Math.abs(this.y - player.y)
-        const c = Math.sqrt(a**2 + b**2)
-    
-        if(this.x + width*0.04 > width || this.x - width*0.04 < 0) {
+        const Pa = Math.abs(this.x - player.x)
+        const Pb = Math.abs(this.y - player.y)
+        const Pc = Math.sqrt(Pa**2 + Pb**2)
+        const Ba = Math.abs(this.x - bot.x)
+        const Bb = Math.abs(this.y - bot.y)
+        const Bc = Math.sqrt(Ba**2 + Bb**2)
+        
+        //score
+        if(this.y - width*.04 < 0) {
+
+            if(this.x > width/3 && this.x < 2*width/3) {
+                bot.score++
+                bola.x = width/2
+                bola.y = height/2
+                bola.dx = 0
+                bola.dy = 0
+            } 
+
+        } else if (this.y + width*.04 > height) {
+
+            if(this.x > width/3 && this.x < 2*width/3) {
+                player.score++
+                bola.x = width/2
+                bola.y = height/2
+                bola.dx = 0
+                bola.dy = 0
+            } 
+        }
+
+        if(this.x + width*.04 > width || this.x - width*.04 < 0) {
             this.dx *= -1
         }
-        if(this.y + width*0.04 > height || this.y - width*0.04 < 0) {
+        if(this.y + width*.04 > height || this.y - width*.04 < 0) {
             this.dy *= -1
         }
-        if(c < width*0.04 + width*0.05) {
-            player.dx === 0 ? this.dx *= -1 : this.dx += player.dx * 0.5
-            player.dy === 0 ? this.dy *= -1 : this.dy += player.dy * 0.5
+        if(Pc < width*.04 + width*.05) {
+            console.log("hit");
+            player.dx === 0 ? this.dx *= -1 : this.dx += player.dx * .5
+            player.dy === 0 ? this.dy *= -1 : this.dy += player.dy * .5
+        } else if(Bc < width*.04 + width*.05){
+            bot.dx === 0 ? this.dx *= -1 : this.dx += bot.dx * .5
+            bot.dy === 0 ? this.dy *= -1 : this.dy += bot.dy * .5
         }
     
-        Math.sign(this.dx) === 1 ? this.dx -= 0.1 : this.dx += 0.1
-        Math.sign(this.dy) === 1 ? this.dy -= 0.1 : this.dy += 0.1
+        Math.sign(this.dx) === 1 ? this.dx -= .1 : this.dx += .1
+        Math.sign(this.dy) === 1 ? this.dy -= .1 : this.dy += .1
     }
 }
 
-/*function colisoes() {
-    this.x += this.dx
-    this.y += this.dy
+class Bot {
+    constructor() {
+        this.x = width/2
+        this.y = height/10
+        this.dx = 3
+        this.dy = 3
+        this.homePosition = {
+            x: width/2,
+            y: height/10
+        }
+        this.score = 0
+    }
 
-    const a = Math.abs(this.x - player.x)
-    const b = Math.abs(this.y - player.y)
-    const c = Math.sqrt(a**2 + b**2)
-    
-    if(this.x + width*0.04 > width || this.x - width*0.04 < 0) {
-         this.dx *= -1
+    draw() {
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, width*.05, 0, 2*Math.PI)
+        ctx.fillStyle = "blue"
+        ctx.fill()
+        ctx.stroke()
     }
-    if(this.y + width*0.04 > height || this.y - width*0.04 < 0) {
-        this.dy *= -1
+
+    update () {
+        if(Math.sign(bola.dy) === 1) {
+            this.retract()
+        } else if(bola.y < this.y) {
+            this.retract()
+        } else if(Math.sign(bola.dy) === -1 && bola.y < height/2) {
+            this.strike()
+        }
     }
-    if(c < width*0.04 + width*0.05) {
-        player.dx === 0 ? this.dx *= -1 : this.dx += player.dx * 0.5
-        player.dy === 0 ? this.dy *= -1 : this.dy += player.dy * 0.5
+
+    strike() {
+        const relativeX = bola.x - this.x
+        const relativeY = bola.y - this.y
+        const theta = Math.atan(relativeX/relativeY)
+        const vector = 10
+        this.dx = vector*Math.sin(theta)
+        this.dy = vector*Math.cos(theta)
+
+        this.x += this.dx
+        this.y += this.dy
     }
-    
-    Math.sign(this.dx) === 1 ? this.dx -= 0.1 : this.dx += 0.1
-    Math.sign(this.dy) === 1 ? this.dy -= 0.1 : this.dy += 0.1
-}*/
+
+    retract() {
+        this.dx = 3
+        this.dy = 3
+        this.x += this.x > this.homePosition.x ? this.dx * -1 : this.dx
+        this.y += this.y > this.homePosition.y ? this.dy * -1 : this.dy
+    }
+}
+
 
 const player = new Player
 const bola = new Bola
+const bot = new Bot
 
 function animate() {
     ctx.clearRect(0,0,width,height)
 
     campo()
-
+    
+    player.update()
     player.draw()
+
     bola.draw()
+    bola.update()
+    
+    bot.draw()
+    bot.update()
+
+    if(bot.score == 5) {
+        alert("You won!!!!")
+        stopAnimation(animate)
+    } else if(player.score == 5) {
+        alert("You lost? :/")
+        stopAnimation(animate)
+    }
 
     requestAnimationFrame(animate)
 }
