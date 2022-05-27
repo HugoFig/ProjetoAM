@@ -1,19 +1,35 @@
-body, html{
+html{
     height: 100%;
 }
 
-.games {
-    width: 600px;
-    height: 500px;
-    border: 10px solid black;
-    margin: 20px auto;
+h1{
+    text-align: center;
+    font-size: 40px;
+}
+
+table{
+    border: 5px solid transparent;
+    /*border: 5px solid rgb(255, 255, 255);*/
     position: relative;
+    left: 100px;
+    right: 100px;
     top: 100px;
 }
 
-#game1, #game2 {
-    width: 200px;
-    height: 100px;
+th{
+    font-size: 30px;
+    border: 5px solid transparent;
+    /*border: 5px solid rgb(255, 255, 255);*/
+}
+
+td{
+    border: 5px solid transparent;
+    /*border: 5px solid rgb(255, 255, 255);*/
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
 }
 
 a:link, a:visited, a:hover, a:active{
@@ -21,23 +37,13 @@ a:link, a:visited, a:hover, a:active{
     color: black;
 }
 
-#game1 {
-    background-color: purple;
-    position: relative;
-    left: 30px;
-    top: 100px;
-}
 
-#game2 {
-    background: #eeeeee;
-    position: relative;
-    top: 200px;
-    left: 30px;
-}
 
 body {
-    background-color: hsl(200, 50%, 70%);
+    background: linear-gradient(142deg, rgba(89,187,244,1), rgba(132,0,255,1));
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    height: 90%;
 }
+
