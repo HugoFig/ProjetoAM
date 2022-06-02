@@ -20,23 +20,7 @@ const campo = () => {
     ctx.stroke()
 }
 
-window.addEventListener("mousemove", (e) => {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    var relativeY = e.clientY -canvas.offsetTop;
-    //player.x = e.x - window.innerWidth/2 + width/2
-    //player.y = e.y - height*0.05;
-    if(relativeX > 0 && relativeX < canvas.width) {
-        player.x = relativeX;
-    }
-    //360
-   if(relativeY > 0 && relativeY < 700){
-        player.y = relativeY;
-    } 
-
-    if(relativeY > 450 && relativeY <= 700){
-        player.y != undefined 
-    }
-})
+window.addEventListener("mousemove", mouseMoveHandler, false);
 
 class Player {
     constructor () {
@@ -67,13 +51,13 @@ class Bola {
     constructor(){
         this.x = width/2
         this.y = height/2
-        this.dx = 5
-        this.dy = 5
+        this.dx = 0
+        this.dy = 0
     }
 
     draw() {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, width*.04, 0, 2*Math.PI)
+        ctx.arc(this.x, this.y, width*.03, 0, 2*Math.PI)
         ctx.fillStyle = "black"
         ctx.fill()
         ctx.stroke()
@@ -98,7 +82,7 @@ class Bola {
                 bola.x = width/2
                 bola.y = height/2
                 bola.dx = 0
-                bola.dy = 0
+                bola.dy = -5 //Se marcares vai para o lado do bot
             } 
 
         } else if (this.y + width*.04 > height) {
@@ -108,7 +92,7 @@ class Bola {
                 bola.x = width/2
                 bola.y = height/2
                 bola.dx = 0
-                bola.dy = 0
+                bola.dy = 5 //Se o bot marcar vai para o teu lado
             } 
         }
 
@@ -123,9 +107,9 @@ class Bola {
             player.dx === 0 ? this.dx *= -1 : this.dx += player.dx * .5
             player.dy === 0 ? this.dy *= -1 : this.dy += player.dy * .5
         } else if(Bc < width*.04 + width*.05){
-            bot.dx === 0 ? this.dx *= -1 : this.dx += bot.dx * .5
-            bot.dy === 0 ? this.dy *= -1 : this.dy += bot.dy * .5
-        }
+            bot.dx === 0 ? this.dx *= -4 : this.dx += bot.dx * 1.5
+            bot.dy === 0 ? this.dy *= -4 : this.dy += bot.dy * 1.5
+        } 
     
         Math.sign(this.dx) === 1 ? this.dx -= .1 : this.dx += .1
         Math.sign(this.dy) === 1 ? this.dy -= .1 : this.dy += .1
@@ -136,8 +120,8 @@ class Bot {
     constructor() {
         this.x = width/2
         this.y = height/10
-        this.dx = 3
-        this.dy = 3
+        this.dx = 5
+        this.dy = 5
         this.homePosition = {
             x: width/2,
             y: height/10
@@ -147,7 +131,7 @@ class Bot {
 
     draw() {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, width*.05, 0, 2*Math.PI)
+        ctx.arc(this.x, this.y, width*0.05, 0, 2*Math.PI)
         ctx.fillStyle = "blue"
         ctx.fill()
         ctx.stroke()
@@ -160,7 +144,9 @@ class Bot {
             this.retract()
         } else if(Math.sign(bola.dy) === -1 && bola.y < height/2) {
             this.strike()
-        }
+        } /*else if(bola.y<bot.y&&bola.x>bot.x-30&&bola.x<bot.x+30) {
+            this.strike()
+        }*/
     }
 
     strike() {
@@ -187,6 +173,20 @@ class Bot {
 const player = new Player
 const bola = new Bola
 const bot = new Bot
+
+function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    var relativeY = e.clientY -canvas.offsetTop;
+    //player.x = e.x - window.innerWidth/2 + width/2
+    //player.y = e.y - height*0.05;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        player.x = relativeX;
+    }
+    //360
+   if(relativeY > 0 && relativeY < 700){
+        player.y = relativeY;
+    }    
+    }
 
 function animate() {
     ctx.clearRect(0,0,width,height)
