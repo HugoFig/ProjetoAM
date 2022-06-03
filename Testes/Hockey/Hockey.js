@@ -132,7 +132,7 @@ class Bot { // class bot
 
     draw() {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, width*0.07, 0, 2*Math.PI) //criar o bot
+        ctx.arc(this.x, this.y, width*0.06, 0, 2*Math.PI) //criar o bot
         ctx.fillStyle = "blue"
         ctx.fill()
         ctx.stroke()
