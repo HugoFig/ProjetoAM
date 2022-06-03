@@ -107,8 +107,9 @@ class Bola {
             player.dx === 0 ? this.dx *= -1 : this.dx += player.dx * .5
             player.dy === 0 ? this.dy *= -1 : this.dy += player.dy * .5
         } else if(Bc < width*.04 + width*.05){
-            bot.dx === 0 ? this.dx *= -4 : this.dx += bot.dx * 1.5
-            bot.dy === 0 ? this.dy *= -4 : this.dy += bot.dy * 1.5
+            //velocidade e a força do bot
+            bot.dx === 0 ? this.dx *= -4 : this.dx += bot.dx * 3 
+            bot.dy === 0 ? this.dy *= -4 : this.dy += bot.dy * 3
         } 
     
         Math.sign(this.dx) === 1 ? this.dx -= .1 : this.dx += .1
@@ -116,7 +117,7 @@ class Bola {
     }
 }
 
-class Bot {
+class Bot { // class bot
     constructor() {
         this.x = width/2
         this.y = height/10
@@ -131,7 +132,7 @@ class Bot {
 
     draw() {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, width*0.05, 0, 2*Math.PI)
+        ctx.arc(this.x, this.y, width*0.08, 0, 2*Math.PI) //criar o bot
         ctx.fillStyle = "blue"
         ctx.fill()
         ctx.stroke()
@@ -144,12 +145,10 @@ class Bot {
             this.retract()
         } else if(Math.sign(bola.dy) === -1 && bola.y < height/2) {
             this.strike()
-        } /*else if(bola.y<bot.y&&bola.x>bot.x-30&&bola.x<bot.x+30) {
-            this.strike()
-        }*/
+        }
     }
 
-    strike() {
+    strike() { // atacar
         const relativeX = bola.x - this.x
         const relativeY = bola.y - this.y
         const theta = Math.atan(relativeX/relativeY)
@@ -161,7 +160,7 @@ class Bot {
         this.y += this.dy
     }
 
-    retract() {
+    retract() { //Voltar a base
         this.dx = 3
         this.dy = 3
         this.x += this.x > this.homePosition.x ? this.dx * -1 : this.dx
