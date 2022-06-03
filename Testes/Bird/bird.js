@@ -8,9 +8,11 @@ var score = 0;
 
 espaco.addEventListener('animationiteration', () => { // cada vez que vez que a animação acaba, ela volta aqui
 
-    var random = -((Math.random() * 300) + 150) // vai devolver um número random entre -150 e -450
+    var random = Math.random() * 3;
 
-    espaco.style.top = random + "px"; // define o valor top random para gerar os espaços onde o passaro vai ter de passar
+    var top = (random*100) + 150; // vai devolver um número random entre -150 e -450
+
+    espaco.style.top = -(top) + "px"; // define o valor top random para gerar os espaços onde o passaro vai ter de passar
 
     score++; // incrementa o score cada vez que o passaro passa com sucesso
 
@@ -24,15 +26,15 @@ setInterval(function(){ // função que funciona como gravidade para o passaro d
         passaro.style.top = (topPassaro + 3) + "px"; // este passo adiciona mais 3 pixeis à posição top do passaro, fazendo-o descer no ecrã
     }
 
-
     var paredeLeft = parseInt(window.getComputedStyle(parede).getPropertyValue("left")); // posição left da parede
 
     var espacoTop = parseInt(window.getComputedStyle(espaco).getPropertyValue("top")); // posição top do espaço
+
     var inversoTop = -(500 - topPassaro); // dá o valor positivo da posição top
 
     if((topPassaro > 480) // se o passaro tocar no chão (limite inferior do jogo)                
         || ((paredeLeft < 20) && (paredeLeft > -50) && // ou se a posição left da parede for inferior a 20 pixeis ou superior a -50 pixeis
-        (inversoTop < espacoTop) || (inversoTop > espaco + 130))) // e se o valor de top do passaro for inferior ao do espaço ou superior ao do espaço
+        ((inversoTop < espacoTop) || (inversoTop > espacoTop + 130)))) // e se o valor de top do passaro for inferior ao do espaço ou superior ao do espaço
     { 
         alert("Game over. Score: " + score); // há um alerta de fim do jogo
         passaro.style.top = 100 + "px"; // e o passaro retoma a possição de top = 100 pixeis
