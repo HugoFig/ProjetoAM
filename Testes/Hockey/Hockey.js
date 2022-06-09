@@ -109,8 +109,8 @@ class Bola {
             player.dy === 0 ? this.dy *= -1 : this.dy += player.dy * .5
         } else if(Bc < width*.04 + width*.05){
             //velocidade e a força do bot
-            bot.dx === 0 ? this.dx *= -4 : this.dx += bot.dx * 1.3
-            bot.dy === 0 ? this.dy *= -4 : this.dy += bot.dy * 1.3
+            bot.dx === 0 ? this.dx *= -4 : this.dx += bot.dx * 1.5
+            bot.dy === 0 ? this.dy *= -4 : this.dy += bot.dy * 1.5
         } 
     
         Math.sign(this.dx) === 1 ? this.dx -= .1 : this.dx += .1
