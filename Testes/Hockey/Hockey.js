@@ -104,12 +104,13 @@ class Bola {
         }
         if(Pc < width*.04 + width*.05) {
             console.log("hit");
+            //velocidade e a força do player
             player.dx === 0 ? this.dx *= -1 : this.dx += player.dx * .5
             player.dy === 0 ? this.dy *= -1 : this.dy += player.dy * .5
         } else if(Bc < width*.04 + width*.05){
             //velocidade e a força do bot
-            bot.dx === 0 ? this.dx *= -4 : this.dx += bot.dx * 1.5
-            bot.dy === 0 ? this.dy *= -4 : this.dy += bot.dy * 1.5
+            bot.dx === 0 ? this.dx *= -4 : this.dx += bot.dx * 1.3
+            bot.dy === 0 ? this.dy *= -4 : this.dy += bot.dy * 1.3
         } 
     
         Math.sign(this.dx) === 1 ? this.dx -= .1 : this.dx += .1
@@ -132,7 +133,7 @@ class Bot { // class bot
 
     draw() {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, width*0.06, 0, 2*Math.PI) //criar o bot
+        ctx.arc(this.x, this.y, width*0.05, 0, 2*Math.PI) //criar o bot
         ctx.fillStyle = "blue"
         ctx.fill()
         ctx.stroke()
