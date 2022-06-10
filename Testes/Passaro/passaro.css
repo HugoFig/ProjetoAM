@@ -1,3 +1,18 @@
+body{
+    background-color: #2bb3e4;
+}
+
+div{
+    margin-left: 150px;
+    margin-top: 50px;
+}
+
+p { /* Estilo da ligação para a página inicial*/
+    font-size: 28px;
+    text-decoration: none;
+    color: black;
+}
+
 #canvas1{
     position: absolute;
     left: 50%;
@@ -5,5 +20,6 @@
     width: 600px;
     height: 400px;
     border: 2px solid black;
+    margin-top: -200px;
 }
 

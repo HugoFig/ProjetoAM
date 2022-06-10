@@ -17,8 +17,8 @@ class Passaro{
     }
     update(){
 
-        if(this.y > canvas.height - (this.height * 3)){
-            this.y = canvas.height - (this.height * 3) ;
+        if(this.y > canvas.height - (this.height * 2)){
+            this.y = canvas.height - (this.height * 2);
             this.velocidadey = 0;
         } else{
             this.velocidadey += this.peso;
@@ -35,8 +35,6 @@ class Passaro{
            
     }
     draw(){
-        ctx.fillStyle = 'red'
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(spritePassaro, this.framex * this.originalWidth, 0, this.originalWidth, this.originalHeight, 
             this.x - 25, this.y - 12, this.width * 1.5, this.height * 1.5);
     }
